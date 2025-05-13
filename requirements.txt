@@ -1,7 +1,7 @@
-streamlit==1.15.0
-opencv-python==4.5.5.64
-pytesseract==0.3.8
-paddlepaddle==2.3.0
-paddleocr==2.3.0
-paddlepaddle
-easyocr
+# requirements.txt (versão enxuta e 100 % instalável no Streamlit Cloud)
+streamlit==1.32.2          # qualquer 1.x funciona, esta é a LTS atual
+opencv-python-headless==4.10.0.82   # “headless” = sem GUI, mais leve
+pytesseract==0.3.10        # só o wrapper; o binário do tesseract vem do container
+easyocr==1.7.1             # OCR alternativo leve (usa torch pré‑compilado)
+numpy<2.0                  # previne conflito de binários do OpenCV
+Pillow>=10.0
