@@ -6,11 +6,6 @@ import os
 import pytesseract
 import re
 from paddleocr import PaddleOCR
-import easyocr
-
-# Instanciando o leitor do EasyOCR
-reader = easyocr.Reader(['en'])
-result = reader.readtext(image)
 
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 # Torch/Streamlit workaround: evita inspeção de módulos __path__ quebrados
