@@ -1,0 +1,3 @@
+Imagem Original: placa_teste_2_artigo.webp
+Texto Extraído: Texto não extraído
+Coordenadas da Placa (x,y,w,h): (22, 49, 331, 140)

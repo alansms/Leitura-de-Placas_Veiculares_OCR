@@ -1,0 +1,23 @@
+from paddleocr import PaddleOCR
+import cv2
+import pytesseract
+import re
+
+# ... other code ...
+
+# Inside the Haar Cascade fallback block
+                # Fallback para PaddleOCR se Tesseract falhar
+                if texto == "Nenhum texto extraído":
+                    try:
+                        # instanciar on‑demand, sem angle_cls para evitar download extra
+                        paddle_ocr = PaddleOCR(use_angle_cls=False, lang='en', show_log=False)
+                        ocr_img = cv2.cvtColor(recorte, cv2.COLOR_BGR2RGB)
+                        result = paddle_ocr.ocr(ocr_img, cls=False)
+                    except Exception:
+                        result = []
+                    texto_concat = "".join([line[1][0] for line in result]) if result else ""
+                    m = re.search(r'[A-Z]{3}-?\d{4}', texto_concat)
+                    if m:
+                        texto = m.group().replace('-', '')
+                    elif texto_concat:
+                        texto = texto_concat

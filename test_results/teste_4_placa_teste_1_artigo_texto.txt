@@ -1,0 +1,3 @@
+Imagem Original: placa_teste_1_artigo.jpeg
+Texto Extraído: Placa não localizada na imagem.
+Coordenadas da Placa (x,y,w,h): Não detectada
