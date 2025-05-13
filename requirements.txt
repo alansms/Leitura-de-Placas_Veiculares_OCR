@@ -3,4 +3,4 @@ opencv-python==4.5.5.64
 pytesseract==0.3.8
 paddlepaddle==2.3.0
 paddleocr==2.3.0
-paddlepaddle
+paddlepaddle==2.6.0
