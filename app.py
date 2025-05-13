@@ -1,11 +1,17 @@
-import streamlit as st
-import cv2
+import os, re, cv2, pytesseract, streamlit as st
 import numpy as np
 from PIL import Image
-import os
-import pytesseract
-import re
-from paddleocr import PaddleOCR
+
+# ------------------------------------------------------------------
+# PaddleOCR é opcional: tenta importar e segue se não existir
+try:
+    from paddleocr import PaddleOCR
+    paddle_ocr = PaddleOCR(use_angle_cls=False, lang="en", show_log=False)
+    PADDLE_OK = True
+except ModuleNotFoundError:
+    paddle_ocr = None
+    PADDLE_OK = False
+# ------------------------------------------------------------------
 
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 # Torch/Streamlit workaround: evita inspeção de módulos __path__ quebrados
