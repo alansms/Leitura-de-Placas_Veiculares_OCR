@@ -3,21 +3,46 @@ import cv2
 import pytesseract
 import re
 
-# ... other code ...
+# Instanciando PaddleOCR uma vez
+paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
 
-# Inside the Haar Cascade fallback block
-                # Fallback para PaddleOCR se Tesseract falhar
-                if texto == "Nenhum texto extraído":
-                    try:
-                        # instanciar on‑demand, sem angle_cls para evitar download extra
-                        paddle_ocr = PaddleOCR(use_angle_cls=False, lang='en', show_log=False)
-                        ocr_img = cv2.cvtColor(recorte, cv2.COLOR_BGR2RGB)
-                        result = paddle_ocr.ocr(ocr_img, cls=False)
-                    except Exception:
-                        result = []
-                    texto_concat = "".join([line[1][0] for line in result]) if result else ""
-                    m = re.search(r'[A-Z]{3}-?\d{4}', texto_concat)
-                    if m:
-                        texto = m.group().replace('-', '')
-                    elif texto_concat:
-                        texto = texto_concat
+def processar_placa(recorte):
+    texto = "Nenhum texto extraído"
+    
+    # Primeiro, tenta o OCR com Tesseract
+    try:
+        gray_plate = cv2.cvtColor(recorte, cv2.COLOR_BGR2GRAY)
+        texto = pytesseract.image_to_string(
+            gray_plate,
+            config='--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        ).strip()
+    except Exception as e:
+        print(f"Erro ao usar Tesseract: {e}")
+        
+    if texto == "Nenhum texto extraído" or texto == "":
+        # Fallback para PaddleOCR se Tesseract falhar
+        try:
+            # Convertendo para RGB, que é o formato esperado pelo PaddleOCR
+            ocr_img = cv2.cvtColor(recorte, cv2.COLOR_BGR2RGB)
+            result = paddle_ocr.ocr(ocr_img, cls=True)
+        except Exception as e:
+            print(f"Erro ao usar PaddleOCR: {e}")
+            result = []
+
+        texto_concat = "".join([line[1][0] for line in result]) if result else ""
+        
+        # Aqui ajustamos a regex para aceitar os dois formatos de placa (Mercosul e antigo)
+        m = re.search(r'[A-Z]{3}\d{4}', texto_concat)  # Para placas antigas
+        m2 = re.search(r'[A-Z]{3}-\d{4}', texto_concat)  # Para placas Mercosul com hífen
+        m3 = re.search(r'[A-Z]{3}[0-9][A-Z][0-9][A-Z][0-9]', texto_concat)  # Para placas Mercosul sem hífen
+        
+        if m:
+            texto = m.group().replace('-', '')
+        elif m2:
+            texto = m2.group().replace('-', '')
+        elif m3:
+            texto = m3.group()
+        elif texto_concat:
+            texto = texto_concat
+            
+    return texto
