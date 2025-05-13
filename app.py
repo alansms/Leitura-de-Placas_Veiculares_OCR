@@ -3,21 +3,24 @@ import numpy as np
 from PIL import Image
 
 # ------------------------------------------------------------------
-# PaddleOCR é opcional: tenta importar e segue se não existir
+# PaddleOCR é opcional
 try:
     from paddleocr import PaddleOCR
     paddle_ocr = PaddleOCR(use_angle_cls=False, lang="en", show_log=False)
     PADDLE_OK = True
 except ModuleNotFoundError:
-    paddle_ocr = None
+    paddle_ocr = None          # evita NameError
     PADDLE_OK = False
 # ------------------------------------------------------------------
 
-os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none"  # evita bug do watcher
 # Torch/Streamlit workaround: evita inspeção de módulos __path__ quebrados
 
-paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
-
+#paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
+resultado = []
+if PADDLE_OK:
+    resultado = paddle_ocr.ocr(alguma_imagem, cls=True)
+    
 plate_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_russian_plate_number.xml')
 
 # Importar funções dos módulos fornecidos pelo usuário
