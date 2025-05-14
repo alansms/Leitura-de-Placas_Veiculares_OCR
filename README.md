@@ -1,7 +1,6 @@
 # Projeto: Leitura de Placas Veiculares com OCR e Interface Web (v2 - Base no Código do Usuário)
 
 Desenvolvido por: Alan de Souza Maximiano da Silva | 📧 rm557088@fiap.com.br.
-Aplicativo online: https://leitura-placas-veiculares-ocr.streamlit.app.
 GitHub: https://github.com/alansms/Leitura-de-Placas_Veiculares_OCR.
 
 ![Descrição do GIF](Tela01.gif)
