@@ -4,6 +4,9 @@ Desenvolvido por: Alan de Souza Maximiano da Silva | 📧 rm557088@fiap.com.br.
 Aplicativo online: https://leitura-placas-veiculares-ocr.streamlit.app.
 GitHub: https://github.com/alansms/Leitura-de-Placas_Veiculares_OCR.
 
+![Descrição do GIF](Tela01.gif)
+
+
 ## ✅ Objetivo
 
 Desenvolver um sistema em Python que utiliza o Tesseract OCR para extrair textos de placas veiculares a partir de imagens, com pré-processamento utilizando OpenCV, baseado no código e lógica fornecidos pelo usuário. O projeto incluirá uma interface interativa desenvolvida com Streamlit, permitindo a escolha de arquivos locais ou a captura da placa através da câmera do dispositivo. O sistema será preparado para publicação no Streamlit Cloud via GitHub.
